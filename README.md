@@ -1,6 +1,6 @@
 # Personal Expense Tracker
 
-A simple Flask + SQLite web app to manage personal expenses.
+A personal expense tracker based on Flask and SQLite. 
 
 ## Stack
 - Python
