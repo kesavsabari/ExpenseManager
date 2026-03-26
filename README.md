@@ -52,4 +52,3 @@ http://127.0.0.1:5000
 
 ## Notes
 - Database is created automatically
-- Only Flask is used (no extra libraries)
