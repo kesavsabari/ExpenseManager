@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Expense Tracker{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Login</h1>
+    <p class="muted">Track expenses with a simple personal dashboard.</p>
+
+    <form method="post" class="form-card">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p class="auth-link">No account yet? <a href="{{ url_for('register') }}">Create one</a></p>
+</section>
+{% endblock %}

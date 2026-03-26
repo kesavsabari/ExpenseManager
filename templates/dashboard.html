@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Expense Tracker{% endblock %}
+
+{% block content %}
+<section class="dashboard-grid">
+    <div class="panel">
+        <h1>Dashboard</h1>
+        <p class="muted">Add expenses, filter by category, and track your total spend.</p>
+
+        <div class="total-card">
+            <span>Total Expenses</span>
+            <strong>${{ "%.2f"|format(total) }}</strong>
+            {% if selected_category %}
+                <small>Filtered by "{{ selected_category }}"</small>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Add Expense</h2>
+        <form method="post" action="{{ url_for('create_expense') }}" class="form-card">
+            <label for="amount">Amount</label>
+            <input id="amount" name="amount" type="number" step="0.01" min="0.01" required>
+
+            <label for="category">Category</label>
+            <input id="category" name="category" type="text" placeholder="Food, Travel, Bills..." required>
+
+            <label for="expDate">Date</label>
+            <input id="expDate" name="expense_date" type="date" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3" placeholder="Optional note"></textarea>
+
+            <button type="submit">Add Expense</button>
+        </form>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <h2>Expenses</h2>
+            <p class="muted">Sorted by date, latest first.</p>
+        </div>
+
+        <form method="get" action="{{ url_for('dashboard') }}" class="filter-form">
+            <label for="catFilter">Category</label>
+            <select id="catFilter" name="category">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>
+                        {{ category }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Apply</button>
+            {% if selected_category %}
+                <a class="secondary-button" href="{{ url_for('dashboard') }}">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if expenses %}
+        <table class="expense-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense["expense_date"] }}</td>
+                        <td>{{ expense["category"] }}</td>
+                        <td>{{ expense["description"] or "-" }}</td>
+                        <td>${{ "%.2f"|format(expense["amount"]) }}</td>
+                        <td class="action-cell">
+                            <form method="post" action="{{ url_for('delete_expense', expense_id=expense['id']) }}">
+                                <button type="submit" class="danger-button">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="empty-state">No expenses found for this view.</div>
+    {% endif %}
+</section>
+{% endblock %}
