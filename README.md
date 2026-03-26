@@ -19,11 +19,15 @@ A simple Flask + SQLite web app to manage personal expenses.
 
 ## Project Structure
 
-app.py
-database/schema.sql
-templates/ (HTML files)
-static/style.css
-requirements.txt
+- app.py
+- requirements.txt
+- README.md
+- database/schema.sql
+- templates/base.html
+- templates/login.html
+- templates/register.html
+- templates/dashboard.html
+- static/style.css
 
 ## How It Works
 - Users log in and manage their own expenses
